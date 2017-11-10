@@ -8,13 +8,13 @@ namespace ConsoleApp1
 {
     class Menu
     {
-        private List<string> Text { get; set; } = new List<string> { };
+        private List<string> Template { get; set; } = new List<string> { };
         private List<Option> Options { get; set; } = new List<Option> { };
         private int SelectedIndex { get; set; } = 0;
 
         public Menu()
         {
-            Text.AddRange(new List<string> {
+            Template.AddRange(new List<string> {
                 { "**************************************************************************************************************" },
                 { "*                                                                                                            *" },
                 { "*                                                                                                            *" },
@@ -36,13 +36,13 @@ namespace ConsoleApp1
             string[] lines = MenuStringFormater.InsertNormal(text).ToArray();
             for (int i = lines.Length; i > 0; i--)
             {
-                Text.Insert(Text.Count - 3, MenuStringFormater.InsertNormal(text)[i - 1]);
+                Template.Insert(Template.Count - 3, MenuStringFormater.InsertNormal(text)[i - 1]);
             }
         }
 
         public void ChangeHeading(string headingText)
         {
-            Text[2] = MenuStringFormater.InsertCentered(headingText);
+            Template[2] = MenuStringFormater.InsertCentered(headingText);
         }
 
         public void ExecuteCommand()
@@ -52,7 +52,7 @@ namespace ConsoleApp1
 
         public void Display()
         {
-            foreach (string line in Text)
+            foreach (string line in Template)
             {
                 Console.WriteLine(line);
             }
@@ -60,17 +60,17 @@ namespace ConsoleApp1
 
         public void AddOption(Option option)
         {
-            option.RowIndex = GetNextOptionIndex();
+            option.TemplateRowIndex = GetNextOptionIndex();
             Options.Add(option);
-            Text.Insert(option.RowIndex, MenuStringFormater.Insert("    " + (Options.Count).ToString() + "| " + option.GetTitle(), 15));
+            Template.Insert(option.TemplateRowIndex, MenuStringFormater.Insert("    " + (Options.Count).ToString() + "| " + option.GetTitle(), 15));
             MoveSelection(0);
         }
 
         private void MoveSelection(int index)
         {
-            RemoveSelection(Options[SelectedIndex].RowIndex);
+            RemoveSelection(Options[SelectedIndex].TemplateRowIndex);
             SelectedIndex = index;
-            SetSelection(Options[index].RowIndex);
+            AttatchSelectionArrow(Options[index].TemplateRowIndex);
         }
 
         public void NextOption()
@@ -98,14 +98,14 @@ namespace ConsoleApp1
             }
         }
 
-        private void SetSelection(int optionIndex)
+        private void AttatchSelectionArrow(int templateRow)
         {
-            Text[optionIndex] = MenuStringFormater.InsertSelector(Text[optionIndex]);
+            Template[templateRow] = MenuStringFormater.InsertSelector(Template[templateRow]);
         }
 
         private void RemoveSelection(int optionIndex)
         {
-            Text[optionIndex] = MenuStringFormater.RemoveSelector(Text[optionIndex]);
+            Template[optionIndex] = MenuStringFormater.RemoveSelector(Template[optionIndex]);
         }
 
         private int GetNextOptionIndex()

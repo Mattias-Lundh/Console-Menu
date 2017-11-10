@@ -14,12 +14,13 @@ namespace ConsoleApp1
         private Menu Caller { get; set; }
         private Menu Link { get; set; }
         private List<ActionType> Actions { get; set; } = new List<ActionType> { };
-        public int RowIndex { get; set; }
+        public int TemplateRowIndex { get; set; }
         
-        public Option(string text)
+        public Option(string title)
         {
-            Title = text;
+            Title = title;
         }
+
         public string GetTitle()
         {
             return Title;
@@ -29,6 +30,7 @@ namespace ConsoleApp1
         {
             Link = menu;
         }
+
         public void SetMessage(string message)
         {
             Message = message;

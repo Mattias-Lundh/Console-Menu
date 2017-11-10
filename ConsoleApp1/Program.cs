@@ -28,11 +28,11 @@ namespace ConsoleApp1
             option7.SetMessage("O oh, Im getting drunk, time to go home");
 
             Menu bar = new Menu { };
-            bar.ChangeHeading("START MENU");
+            bar.ChangeHeading("BAR");
             bar.AddOption(option4);
             bar.AddOption(option5);
             bar.AddOption(option6);
-            bar.AddOption(option7);            
+            bar.AddOption(option7);
 
             Option option1 = new Option("print Hello World!");
             option1.AddAction(Option.ActionType.Print);
@@ -46,20 +46,25 @@ namespace ConsoleApp1
             option3.SetLink(bar);
 
             Menu startMenu = new Menu { };
-            startMenu.ChangeHeading("START MENU");           
+            startMenu.ChangeHeading("START MENU");
             startMenu.AddOption(option1);
             startMenu.AddOption(option2);
             startMenu.AddOption(option3);
 
             CurrentMenu = startMenu;
-            Run();           
+            Run();
         }
 
         public static void Run()
         {
+            bool actionKey = true;
             while (true)
             {
-                CurrentMenu.Display();
+                if (actionKey)
+                {
+                    CurrentMenu.Display();
+                }
+                actionKey = true;
                 ConsoleKeyInfo key = Console.ReadKey();
                 if (key.Key == ConsoleKey.UpArrow)
                 {
@@ -75,6 +80,10 @@ namespace ConsoleApp1
                 {
                     Console.Clear();
                     CurrentMenu.ExecuteCommand();
+                }
+                else
+                {
+                    actionKey = false;
                 }
             }
         }
